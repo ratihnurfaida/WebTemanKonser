@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Konser</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --stage-black: #0B0E1A;
+            --spot-violet: #8B5CF6;
+            --spot-pink: #FB7185;
+            --spot-amber: #FBBF24;
+            --paper: #FAF9F6;
+            --ink: #1B1B29;
+            --muted-light: #6B7280;
+            --font-display: 'Anton', sans-serif;
+            --font-body: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--stage-black);
+            background-image:
+                radial-gradient(ellipse 700px 450px at 8% -5%, rgba(139,92,246,0.22), transparent 60%),
+                radial-gradient(ellipse 600px 400px at 95% 5%, rgba(251,113,133,0.16), transparent 60%),
+                radial-gradient(ellipse 500px 600px at 50% 100%, rgba(251,191,36,0.06), transparent 70%);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            font-family: var(--font-body);
+            min-height: 100vh;
+        }
+
+        .form-card {
+            background: var(--paper);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+        }
+
+        .form-title {
+            font-family: var(--font-display);
+            letter-spacing: 0.01em;
+            font-size: clamp(1.5rem, 3vw, 1.9rem);
+            color: var(--ink);
+            text-transform: uppercase;
+        }
+        .form-sub { color: var(--muted-light); }
+
+        .form-label {
+            color: var(--muted-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .form-control, .form-control:focus { color: var(--ink); }
+        .form-control {
+            border-radius: 12px;
+            border: 1px solid rgba(27,27,41,0.12);
+            padding: 0.6rem 1rem;
+            transition: 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--spot-violet);
+            box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+        }
+
+        .icon-loc { color: var(--spot-pink); }
+        .icon-date { color: var(--spot-violet); }
+        .icon-price { color: var(--spot-amber); }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--spot-violet) 0%, var(--spot-pink) 100%);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 10px 30px;
+            transition: 0.2s;
+        }
+        .btn-save:hover {
+            opacity: 0.92;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(139,92,246,0.35);
+            color: #fff;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1.5px solid rgba(27,27,41,0.2);
+            color: var(--muted-light);
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 10px 30px;
+            transition: 0.2s;
+        }
+        .btn-cancel:hover {
+            background: rgba(27,27,41,0.05);
+            color: var(--ink);
+        }
+    </style>
+</head>
+<body>
+	<div th:replace="~{navbar :: navbar}"></div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="form-card">
+                    <h2 class="form-title mb-1" th:text="${konser.id == null} ? 'Tambah Konser Baru' : 'Edit Data Konser'"></h2>
+                    <p class="form-sub mb-4">Isi detail acara di bawah ini untuk ditampilkan di daftar konser.</p>
+
+                    <form th:action="@{/tambah}" th:object="${konser}" method="post">
+
+                        <input type="hidden" th:field="*{id}">
+
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-music-note-beamed me-1"></i>Nama Event</label>
+                            <input type="text" th:field="*{namaEvent}" class="form-control" required placeholder="Contoh: Gaia Music Festival">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-file-text-fill me-1"></i>Deskripsi</label>
+                            <textarea th:field="*{deskripsi}" class="form-control" rows="3"></textarea>
+                        </div>
+
+						<div class="mb-3">
+						    <label class="form-label"><i class="bi bi-geo-alt-fill icon-loc me-1"></i>Lokasi Konser</label>
+						    <input type="text" th:field="*{lokasi}" class="form-control" placeholder="Contoh: Gelora Bung Karno">
+						</div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-calendar-event-fill icon-date me-1"></i>Tanggal Acara</label>
+                                <input type="date" th:field="*{tanggalAcara}" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-tag-fill icon-price me-1"></i>Harga Tiket</label>
+                                <input type="number" th:field="*{hargaTiket}" class="form-control" required>
+                            </div>
+                        </div>
+						
+						<div class="mb-3">
+						        <label class="form-label"><i class="bi bi-image-fill me-1"></i>Link URL Gambar</label>
+						        <input type="text" th:field="*{gambar}" class="form-control" placeholder="Masukkan URL gambar">
+						</div>
+						
+						<div class="mb-3">
+								<label class="form-label"><i class="bi bi-image-fill me-1"></i>Link URL Tiket</label>
+						        <input type="text" th:field="*{linkTiket}" class="form-control" placeholder="Masukkan URL tiket">
+						</div>
+
+                        <div class="d-flex gap-3 mt-4">
+                            <button type="submit" class="btn btn-save"><i class="bi bi-check-circle-fill me-2"></i>Simpan Konser</button>
+                            <a href="/daftar-konser" class="btn btn-cancel">Batal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

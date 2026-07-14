@@ -1,0 +1,127 @@
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark konser-navbar py-3 sticky-top">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap');
+
+        .konser-navbar {
+            --nav-bg: rgba(11,14,26,0.92);
+            --nav-violet: #8B5CF6;
+            --nav-pink: #FB7185;
+            --nav-amber: #FBBF24;
+            --nav-muted: #A8AEDB;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139,92,246,0.25);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+        }
+
+        .konser-navbar .brand-mark {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #fff;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 2px;
+        }
+        .konser-navbar .brand-mark .brand-accent { color: var(--nav-amber); }
+
+        .konser-navbar .nav-link {
+            color: var(--nav-muted);
+            font-weight: 600;
+            font-size: 0.92rem;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .konser-navbar .nav-link:hover,
+        .konser-navbar .nav-link:focus {
+            color: #fff;
+            border-bottom-color: var(--nav-violet);
+        }
+
+        .konser-navbar .btn-nav-outline {
+            background: transparent;
+            border: 1.5px solid var(--nav-violet);
+            color: var(--nav-violet);
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .konser-navbar .btn-nav-outline:hover {
+            background: var(--nav-violet);
+            color: #fff;
+        }
+        .konser-navbar .btn-nav-solid {
+            background: linear-gradient(135deg, var(--nav-violet) 0%, var(--nav-pink) 100%);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .konser-navbar .btn-nav-solid:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+        .konser-navbar .btn-nav-admin {
+            background: var(--nav-amber);
+            border: none;
+            color: #1B1B29;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .konser-navbar .btn-nav-admin:hover {
+            opacity: 0.88;
+            color: #1B1B29;
+        }
+        .konser-navbar .btn-nav-logout {
+            background: transparent;
+            border: 1.5px solid var(--nav-pink);
+            color: var(--nav-pink);
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .konser-navbar .btn-nav-logout:hover {
+            background: var(--nav-pink);
+            color: #fff;
+        }
+
+        .konser-navbar .navbar-toggler {
+            border-color: rgba(168,174,219,0.4);
+        }
+    </style>
+
+    <div class="container">
+        <!-- Logo/Brand -->
+        <a class="navbar-brand fw-bold" href="/">
+            <span class="brand-mark">Teman<span class="brand-accent">Konser</span></span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="/wishlist">Wishlist</a>
+                </li>
+
+                <!-- Logika Session untuk Login/Logout & Admin -->
+								<li class="nav-item ms-lg-3">
+				            <div th:unless="${session.userLoggedIn}" class="d-flex gap-2">
+				                <a href="/login" class="btn btn-nav-outline btn-sm px-3">Masuk</a>
+				                <a href="/daftar" class="btn btn-nav-solid btn-sm px-3">Daftar</a>
+				            </div>
+
+							<div th:if="${session.userLoggedIn}" class="d-flex align-items-center gap-2">
+							    <a th:if="${session.role == 'ADMIN'}" href="/admin/dashboard" class="btn btn-nav-admin btn-sm px-3">Dashboard</a>
+							    <a href="/logout" class="btn btn-nav-logout btn-sm px-3">Keluar</a>
+							</div>
+				        </li>
+            </ul>
+        </div>
+    </div>
+</nav>

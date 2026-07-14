@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KonserId | Jelajahi Konser Seru</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --stage-black: #0B0E1A;
+            --spot-violet: #8B5CF6;
+            --spot-pink: #FB7185;
+            --spot-amber: #FBBF24;
+            --paper: #FAF9F6;
+            --ink: #1B1B29;
+            --muted-dark: #A8AEDB;
+            --muted-light: #6B7280;
+            --font-display: 'Anton', sans-serif;
+            --font-body: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--stage-black);
+            font-family: var(--font-body);
+            color: var(--muted-dark);
+            min-height: 100vh;
+        }
+
+        .hero-section {
+            background-image:
+                linear-gradient(rgba(11,14,26,0.65), rgba(11,14,26,0.9)),
+                url('/images/hero-bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            color: var(--spot-amber);
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: #fff;
+            letter-spacing: 0.01em;
+            margin: 12px 0;
+        }
+
+        .hero-subtitle {
+            color: var(--muted-dark);
+            font-size: 1.05rem;
+            max-width: 550px;
+            margin: 0 auto 32px;
+        }
+
+        .search-box {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--paper);
+            border-radius: 50px;
+            padding: 8px 8px 8px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            flex: 1;
+            background: transparent;
+            font-family: var(--font-body);
+            color: var(--ink);
+            font-size: 0.95rem;
+        }
+        .search-box input::placeholder { color: var(--muted-light); }
+        .search-box button {
+            background: linear-gradient(135deg, var(--spot-violet) 0%, var(--spot-pink) 100%);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 50px;
+        }
+
+        .section-wrap { padding: 60px 0; }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: #fff;
+            letter-spacing: 0.01em;
+            margin-bottom: 24px;
+        }
+
+        .trending-card {
+            background: rgba(139,92,246,0.06);
+            border: 1px solid rgba(139,92,246,0.18);
+            border-radius: 16px;
+            padding: 24px;
+            transition: 0.2s;
+            height: 100%;
+        }
+        .trending-card:hover {
+            border-color: var(--spot-violet);
+            transform: translateY(-4px);
+        }
+        .trending-card h3 {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .trending-card p {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--spot-amber);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{navbar :: navbar}"></div>
+
+    <div class="hero-section">
+        <div class="hero-tag"><i class="bi bi-geo-alt-fill"></i> Kawasan Konser Bandung</div>
+        <h1 class="hero-title">Jelajahi Konser Seru</h1>
+        <p class="hero-subtitle">Cari informasi lengkap konser musik favoritmu — lokasi, tanggal, dan kisaran harga tiketnya.</p>
+
+        <form th:action="@{/daftar-konser}" method="get" class="search-box">
+            <input type="text" name="keyword" placeholder="Cari nama konser, artis, atau genre...">
+            <button type="submit"><i class="bi bi-search"></i> Cari</button>
+        </form>
+    </div>
+
+    <div class="container section-wrap">
+        <h2 class="section-title"><i class="bi bi-fire text-warning me-2"></i>Konser Paling Sering Dicari</h2>
+
+        <div class="row g-4">
+            <div th:each="k : ${trendingKonser}" class="col-md-4">
+                <a th:href="@{'/konser/detail/' + ${k.id}}" class="text-decoration-none">
+                    <div class="trending-card">
+                        <h3 th:text="${k.namaEvent}">Nama Event</h3>
+                        <p th:text="'Dilihat ' + ${k.jumlahKlik} + ' kali'">Dilihat 0 kali</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div th:if="${trendingKonser == null or #lists.isEmpty(trendingKonser)}" class="text-center text-secondary py-4">
+            Belum ada data konser trending.
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

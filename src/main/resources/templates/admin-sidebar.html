@@ -1,0 +1,44 @@
+<div th:fragment="sidebar" class="admin-sidebar">
+    <style>
+        .admin-layout { display: flex; min-height: calc(100vh - 88px); }
+        .admin-sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            background: #10142A;
+            border-right: 1px solid rgba(139,92,246,0.15);
+            padding: 24px 0;
+        }
+        .admin-sidebar .side-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            color: #A8AEDB;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+            transition: 0.2s;
+        }
+        .admin-sidebar .side-link:hover {
+            background: rgba(139,92,246,0.08);
+            color: #fff;
+        }
+        .admin-sidebar .side-link.active {
+            background: rgba(139,92,246,0.12);
+            border-left-color: #8B5CF6;
+            color: #fff;
+        }
+        .admin-content { flex: 1; padding: 40px; }
+    </style>
+
+    <a href="/admin/dashboard" class="side-link">
+        <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+    <a href="/admin/konser" class="side-link">
+        <i class="bi bi-music-note-list"></i> Data Konser
+    </a>
+    <a href="/artis" class="side-link">
+        <i class="bi bi-mic-fill"></i> Data Artis
+    </a>
+</div>

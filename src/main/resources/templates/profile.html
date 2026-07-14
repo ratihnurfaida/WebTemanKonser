@@ -1,0 +1,11 @@
+<div class="container mt-5">
+    <div class="card p-4 col-md-4 mx-auto shadow-sm">
+        <h4 class="text-center">Profil Saya</h4>
+        <hr>
+        <div class="mb-3">
+            <label class="text-muted">Username</label>
+            <p class="fw-bold" th:text="${session.user.username}"></p>
+        </div>
+        <a href="/logout" class="btn btn-danger w-100">Logout</a>
+    </div>
+</div>
